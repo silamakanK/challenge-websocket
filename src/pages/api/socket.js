@@ -7,7 +7,6 @@ export const config = {
   api: { bodyParser: false },
 };
 
-// ⚡ mettre async ici règle l'erreur
 export default async function handler(req, res) {
   if (!res.socket.server.io) {
     console.log("Initialisation du serveur Socket.IO");
@@ -22,17 +21,23 @@ export default async function handler(req, res) {
 
       socket.on("send_message", async (msg) => {
         try {
+            const name = await prisma.user.findUnique({
+              where: { id: msg.userId },
+              select: { name: true }
+            });
+
           const saved = await prisma.message.create({
             data: {
               content: msg.content,
               userId: msg.userId,
+              name: name.username
             },
           });
 
           io.emit("receive_message", saved);
         } catch (err) {
           console.error("Erreur lors de l’enregistrement du message:", err);
-        }
+        } 
       });
     });
   }

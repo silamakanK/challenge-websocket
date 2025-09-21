@@ -7,7 +7,7 @@ export default function Home() {
       <Navbar />
       <hr />
       <main className="flex flex-col items-center gap-8 m-8">
-        <h1 className="text-4xl font-bold text-center">
+        <h1 className="text-5xl font-bold underline">
           Challenge WebSocket avec Next.js et Prisma
         </h1>
         <p className="text-center max-w-xl">

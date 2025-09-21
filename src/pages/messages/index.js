@@ -1,5 +1,6 @@
 import CustomLink from "../../app/components/CustomLink";
 import { useEffect,useState } from "react";
+import "../../app/globals.css";
 
 
 export default function MessagesPage() {
@@ -14,27 +15,28 @@ export default function MessagesPage() {
 
 
   return (
-    <ul>
-      {messages.map((message) => (
-        <li key={message.id}>
-            <CustomLink href={`/messages/${message.id}`}>
-                <strong>{message.user?.name}: </strong>
-            </CustomLink>
-            <strong>{message.content}</strong> 
-        </li>
-      ))}
-    </ul>
+    <table className="min-w-full border border-gray-300">
+      <thead className="bg-gray-100">
+        <tr>
+          <th className="border px-4 py-2 text-left">Name</th>
+          <th className="border px-4 py-2 text-left">Content</th>
+        </tr>
+      </thead>
+      <tbody>
+        {messages.map((message) => (
+          <tr key={message.id}>
+            <td className="border px-4 py-2">
+              <CustomLink href={`/messages/${message.id}`}>
+                {message.user?.name}
+              </CustomLink>
+            </td>
+            <td className="border px-4 py-2">
+              {message.content}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+
   );
 }
-
-// export async function getStaticProps() {
-//   const messages = await prisma.message.findMany({
-//     include: { user: {
-//         select: { id: true, name: true } 
-//     } },    
-//   });
-
-//   return {
-//     props: { messages: serialize(messages) },
-//   };
-// }
